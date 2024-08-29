@@ -1,6 +1,6 @@
 <template>
   <div class="nav-action-item" @click="showSearchModal">
-    <svg-icon icon-class="search" />
+    <svg-icon icon-class="search" color="#FFFFFF" />
     <el-dialog
       v-model="visible"
       width="30%"

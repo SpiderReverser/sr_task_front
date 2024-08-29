@@ -67,7 +67,7 @@
     </template>
 
     <!-- 用户头像 -->
-    <el-dropdown class="nav-action-item" trigger="click">
+    <el-dropdown class="nav-action-item" trigger="click" v-if="haslogin">
       <div class="flex-center h100% p10px">
         <img
           :src="userStore.user.avatar + '?imageView2/1/w/80/h/80'"
@@ -93,6 +93,14 @@
       </template>
     </el-dropdown>
 
+    <template v-else>
+      <div class="flex-center h100% p10px">
+        <el-button type="" @click="tologin" link>
+          {{ $t("navbar.login") }}
+        </el-button>
+      </div>
+    </template>
+
     <!-- 设置 -->
     <template v-if="defaultSettings.showSettings">
       <div class="nav-action-item" @click="settingStore.settingsVisible = true">
@@ -109,6 +117,7 @@ import {
   useSettingsStore,
 } from "@/store";
 import defaultSettings from "@/settings";
+import { TOKEN_KEY } from "@/enums/CacheEnum";
 import { DeviceEnum } from "@/enums/DeviceEnum";
 import { MessageTypeEnum, MessageTypeLabels } from "@/enums/MessageTypeEnum";
 
@@ -119,12 +128,15 @@ const settingStore = useSettingsStore();
 
 const route = useRoute();
 const router = useRouter();
+const haslogin = localStorage.getItem(TOKEN_KEY) ? true : false;
 
 const isMobile = computed(() => appStore.device === DeviceEnum.MOBILE);
 
 const { isFullscreen, toggle } = useFullscreen();
 
 const activeTab = ref(MessageTypeEnum.MESSAGE);
+
+defaultSettings.showSettings = haslogin;
 
 const messages = ref([
   {
@@ -183,6 +195,9 @@ function logout() {
         router.push(`/login?redirect=${route.fullPath}`);
       });
   });
+}
+function tologin() {
+  router.push(`/login?redirect=${route.fullPath}`);
 }
 </script>
 <style lang="scss" scoped>

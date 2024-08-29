@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from "vue-router";
 import { constantRoutes } from "@/router";
+import router from "@/router";
 import { store } from "@/store";
 import MenuAPI, { RouteVO } from "@/api/menu";
 
@@ -29,6 +30,12 @@ export const usePermissionStore = defineStore("permission", () => {
     });
   }
 
+  function setRoutes(data: RouteVO[]) {
+    const dynamicRoutes = transformRoutes(data);
+    routes.value = constantRoutes.concat(dynamicRoutes);
+    dynamicRoutes.forEach((route: RouteRecordRaw) => router.addRoute(route));
+  }
+
   /**
    * 混合模式菜单下根据顶部菜单路径设置左侧菜单
    *
@@ -44,6 +51,7 @@ export const usePermissionStore = defineStore("permission", () => {
   return {
     routes,
     generateRoutes,
+    setRoutes,
     mixLeftMenus,
     setMixLeftMenus,
   };
