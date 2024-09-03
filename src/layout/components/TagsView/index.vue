@@ -197,7 +197,6 @@ function isAffix(tag: TagView) {
 function isFirstView() {
   try {
     return (
-      selectedTag.value.path === "/dashboard" ||
       selectedTag.value.fullPath === tagsViewStore.visitedViews[1].fullPath
     );
   } catch (err) {

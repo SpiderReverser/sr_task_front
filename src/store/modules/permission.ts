@@ -32,6 +32,7 @@ export const usePermissionStore = defineStore("permission", () => {
 
   function setRoutes(data: RouteVO[]) {
     const dynamicRoutes = transformRoutes(data);
+    console.log(constantRoutes.concat(dynamicRoutes));
     routes.value = constantRoutes.concat(dynamicRoutes);
     dynamicRoutes.forEach((route: RouteRecordRaw) => router.addRoute(route));
   }

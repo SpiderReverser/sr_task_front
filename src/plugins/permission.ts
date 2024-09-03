@@ -59,7 +59,7 @@ export function setupPermission() {
       }
     } else {
       // 未登录
-      if (whiteList.includes(to.path)) {
+      if (whiteList.includes(to.path) || to.path.startsWith("/error-page")) {
         next(); // 在白名单，直接进入
       } else {
         // 不在白名单，重定向到登录页

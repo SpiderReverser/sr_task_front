@@ -1,3 +1,4 @@
+import { fa } from "element-plus/es/locale";
 import type { App } from "vue";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 
@@ -22,18 +23,39 @@ export const constantRoutes: RouteRecordRaw[] = [
     component: () => import("@/views/login/index.vue"),
     meta: { hidden: true },
   },
-
-  {
-    path: "/home",
-    component: () => import("@/views/home/index.vue"),
-    meta: { hidden: true },
-  },
-
   {
     path: "/",
     name: "/",
-    component: Layout,
     redirect: "/home",
+    children: [
+      {
+        path: "/home",
+        component: () => import("@/views/home/index.vue"),
+        meta: {
+          icon: "homepage",
+          title: "dashboard",
+        },
+      }
+    ]
+  },
+  {
+    path: "/error-page",
+    children: [
+      {
+        path: "401",
+        component: () => import("@/views/error-page/401.vue"),
+        meta: { hidden: true },
+      },
+      {
+        path: "404",
+        component: () => import("@/views/error-page/404.vue"),
+        meta: { hidden: true },
+      },
+    ]
+  },
+  {
+    path: "/admin",
+    component: Layout,
     children: [
       {
         path: "dashboard",
@@ -46,6 +68,7 @@ export const constantRoutes: RouteRecordRaw[] = [
           icon: "homepage",
           affix: true,
           keepAlive: true,
+          hidden: true
         },
       },
       {
