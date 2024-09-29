@@ -21,69 +21,79 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, watch } from 'vue'
-import { ElDialog, ElForm, ElFormItem, ElInput, ElSlider, ElButton } from 'element-plus'
-import type { FormInstance, FormRules } from 'element-plus'
+import { ref, reactive, watch } from "vue";
+import type { FormInstance, FormRules } from "element-plus";
 
 interface Props {
-  visible: boolean
+  visible: boolean;
 }
 
 interface Emits {
-  (e: 'update:visible', value: boolean): void
-  (e: 'add-task', task: {
-    name: string
-    progress: number
-    phoneNumber: string
-  }): void
+  (e: "update:visible", value: boolean): void;
+  (
+    e: "add-task",
+    task: {
+      name: string;
+      progress: number;
+      phoneNumber: string;
+      createdAt: Date | null;
+      completedAt: Date | null;
+    }
+  ): void;
 }
 
-const props = defineProps<Props>()
-const emit = defineEmits<Emits>()
+const props = defineProps<Props>();
+const emit = defineEmits<Emits>();
 
-const dialogVisible = ref(props.visible)
+const dialogVisible = ref(props.visible);
 
-
-
-const formRef = ref<FormInstance>()
+const formRef = ref<FormInstance>();
 
 const form = reactive({
-  name: '',
-  phoneNumber: '',
-  progress: 0
-})
+  name: "",
+  phoneNumber: "",
+  progress: 0,
+});
 
 const rules: FormRules = {
-  name: [{ required: true, message: '请输入任务名称', trigger: 'blur' }],
+  name: [{ required: true, message: "请输入任务名称", trigger: "blur" }],
   phoneNumber: [
-    { required: true, message: '请输入手机号', trigger: 'blur' },
-    { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的手机号', trigger: 'blur' }
+    { required: true, message: "请输入手机号", trigger: "blur" },
+    {
+      pattern: /^1[3-9]\d{9}$/,
+      message: "请输入有效的手机号",
+      trigger: "blur",
+    },
   ],
-  progress: [{ required: true, message: '请设置任务进度', trigger: 'change' }]
-}
+  progress: [{ required: true, message: "请设置任务进度", trigger: "change" }],
+};
 
 const handleClose = () => {
-  emit('update:visible', false)
-  formRef.value?.resetFields()
-}
+  emit("update:visible", false);
+  formRef.value?.resetFields();
+};
 
 const handleSubmit = async () => {
-  if (!formRef.value) return
+  if (!formRef.value) return;
 
   await formRef.value.validate((valid, fields) => {
     if (valid) {
-      emit('add-task', {
+      emit("add-task", {
         name: form.name,
         progress: form.progress,
-        phoneNumber: form.phoneNumber
-      })
-      handleClose()
+        phoneNumber: form.phoneNumber,
+        createdAt: null,
+        completedAt: null,
+      });
+      handleClose();
     }
-  })
-}
+  });
+};
 
-watch(() => props.visible, (newValue) => {
-  dialogVisible.value = newValue
-})
-
+watch(
+  () => props.visible,
+  (newValue) => {
+    dialogVisible.value = newValue;
+  }
+);
 </script>

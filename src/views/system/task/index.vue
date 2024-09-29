@@ -1,28 +1,36 @@
 <template>
   <div class="task-progress-manager">
-    <el-button type="primary" @click="showAddTaskDialog">新增任务</el-button>
-
-    <div class="task-waterfall">
-      <div v-for="task in tasks" :key="task.id" class="task-item">
-        <TaskItem :task="task" @click="showTaskDetails(task)" />
+    <el-card shadow="never">
+      <template #header>
+        <el-button type="success" @click="showAddTaskDialog">
+          <i-ep-plus />
+          新增任务
+        </el-button>
+      </template>
+      <div class="task-waterfall">
+        <div v-for="task in tasks" :key="task.id" class="task-item">
+          <TaskItem :task="task" @click="showTaskDetails(task)" />
+        </div>
       </div>
-    </div>
+    </el-card>
 
     <AddTaskDialog v-model:visible="addTaskDialogVisible" @add-task="addTask" />
 
-    <TaskDetailsDialog v-model:visible="taskDetailsDialogVisible" :task="selectedTask" />
+    <TaskDetailsDialog
+      v-model:visible="taskDetailsDialogVisible"
+      :task="selectedTask"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
-import { ElButton } from "element-plus";
 
 interface Task {
   id: number;
   name: string;
   progress: number;
-  createdAt: Date;
+  createdAt: Date | null;
   completedAt: Date | null;
   phoneNumber: string;
 }
@@ -47,12 +55,15 @@ const addTask = (newTask: Omit<Task, "id">) => {
 };
 
 const showTaskDetails = (task: Task) => {
+  // selectedTask.value = tasks.value.find((item) => item.id === task.id);
+  // Object.assign(selectedTask.value, task);
   selectedTask.value = task;
   taskDetailsDialogVisible.value = true;
 };
 
-onMounted(() => {
-  // 模拟从 API 获取任务数据
+const percentage2 = ref(0);
+
+watch(percentage2, (percentage) => {
   tasks.value = [
     {
       id: 1,
@@ -65,14 +76,49 @@ onMounted(() => {
     {
       id: 2,
       name: "客户会议",
-      progress: 100,
+      progress: percentage,
       createdAt: new Date("2023-05-02"),
       completedAt: new Date("2023-05-03"),
       phoneNumber: "13900139000",
     },
     // 添加更多模拟数据...
+    {
+      id: 3,
+      name: "完成项目报告",
+      progress: percentage,
+      createdAt: new Date("2023-05-01"),
+      completedAt: null,
+      phoneNumber: "13800138000",
+    },
+    {
+      id: 4,
+      name: "完成项目报告",
+      progress: percentage,
+      createdAt: new Date("2023-05-01"),
+      completedAt: null,
+      phoneNumber: "13800138000",
+    },
+    {
+      id: 5,
+      name: "完成项目报告",
+      progress: percentage,
+      createdAt: new Date("2023-05-01"),
+      completedAt: null,
+      phoneNumber: "13800138000",
+    },
   ];
 });
+
+onMounted(() => {
+  setInterval(() => {
+    percentage2.value = (percentage2.value % 100) + 5;
+  }, 500);
+});
+
+function sleep(ms: number) {
+  var unixtime_ms = new Date().getTime();
+  while (new Date().getTime() < unixtime_ms + ms) {}
+}
 </script>
 
 <style scoped>
@@ -81,14 +127,26 @@ onMounted(() => {
 }
 
 .task-waterfall {
-  column-count: 3;
-  column-gap: 20px;
-  margin-top: 20px;
+  column-count: 4;
+  /* column-gap: 20px; */
+  /* margin-top: 20px; */
 }
 
 .task-item {
   break-inside: avoid;
   margin-bottom: 20px;
+}
+
+/* @media (max-width: 2440px) {
+  .task-waterfall {
+    column-count: 3;
+  }
+} */
+
+@media (max-width: 1800px) {
+  .task-waterfall {
+    column-count: 3;
+  }
 }
 
 @media (max-width: 1200px) {

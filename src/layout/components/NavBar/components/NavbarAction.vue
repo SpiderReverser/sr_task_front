@@ -5,11 +5,18 @@
       <menu-search v-if="haslogin" />
       <!--全屏 -->
       <div class="nav-action-item" @click="toggle">
-        <svg-icon :icon-class="isFullscreen ? 'fullscreen-exit' : 'fullscreen'" />
+        <svg-icon
+          :icon-class="isFullscreen ? 'fullscreen-exit' : 'fullscreen'"
+        />
       </div>
 
       <!-- 布局大小 -->
-      <el-tooltip :content="$t('sizeSelect.tooltip')" effect="dark" placement="bottom" v-if="haslogin">
+      <el-tooltip
+        :content="$t('sizeSelect.tooltip')"
+        effect="dark"
+        placement="bottom"
+        v-if="haslogin"
+      >
         <size-select class="nav-action-item" />
       </el-tooltip>
 
@@ -17,7 +24,11 @@
       <lang-select class="nav-action-item" />
 
       <!-- 消息通知 -->
-      <el-dropdown class="message nav-action-item" trigger="click" v-if="haslogin">
+      <el-dropdown
+        class="message nav-action-item"
+        trigger="click"
+        v-if="haslogin"
+      >
         <el-badge is-dot>
           <div class="flex-center h100% p10px">
             <i-ep-bell />
@@ -26,8 +37,17 @@
         <template #dropdown>
           <div class="px-5 py-2">
             <el-tabs v-model="activeTab">
-              <el-tab-pane v-for="(label, key) in MessageTypeLabels" :label="label" :name="key" :key="key">
-                <div class="w-[380px] py-2" v-for="message in getFilteredMessages(key)" :key="message.id">
+              <el-tab-pane
+                v-for="(label, key) in MessageTypeLabels"
+                :label="label"
+                :name="key"
+                :key="key"
+              >
+                <div
+                  class="w-[380px] py-2"
+                  v-for="message in getFilteredMessages(key)"
+                  :key="message.id"
+                >
                   <el-link type="primary">
                     <el-text class="w-350px" size="default" truncated>
                       {{ message.title }}
@@ -56,7 +76,10 @@
     <!-- 用户头像 -->
     <el-dropdown class="nav-action-item" trigger="click" v-if="haslogin">
       <div class="flex-center h100% p10px">
-        <img :src="userStore.user.avatar + '?imageView2/1/w/80/h/80'" class="rounded-full mr-10px w24px w24px" />
+        <img
+          :src="userStore.user.avatar + '?imageView2/1/w/80/h/80'"
+          class="rounded-full mr-10px w24px w24px"
+        />
         <span>{{ userStore.user.username }}</span>
       </div>
       <template #dropdown>
@@ -69,10 +92,12 @@
     </el-dropdown>
 
     <template v-else>
-      <div class="flex-center h100% p10px">
-        <el-button type="" @click="tologin" link>
-          {{ $t("navbar.login") }}
-        </el-button>
+      <div class="nav-action-item">
+        <div class="flex-center h100% p10px">
+          <el-button type="" @click="tologin" link>
+            {{ $t("navbar.login") }}
+          </el-button>
+        </div>
       </div>
     </template>
 
@@ -110,7 +135,6 @@ const isMobile = computed(() => appStore.device === DeviceEnum.MOBILE);
 const { isFullscreen, toggle } = useFullscreen();
 
 const activeTab = ref(MessageTypeEnum.MESSAGE);
-
 
 const messages = ref([
   {

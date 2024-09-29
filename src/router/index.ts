@@ -25,7 +25,7 @@ export const constantRoutes: RouteRecordRaw[] = [
   },
   {
     path: "/",
-    redirect: "/dashboard",
+    redirect: "/system",
     component: Layout,
     meta: {
       title: "dashboard",
@@ -43,7 +43,7 @@ export const constantRoutes: RouteRecordRaw[] = [
           icon: "homepage",
           affix: true,
           keepAlive: true,
-          hidden: true
+          hidden: true,
         },
       },
       {
@@ -68,19 +68,21 @@ export const constantRoutes: RouteRecordRaw[] = [
       hidden: false,
       alwaysShow: true,
     },
-    children: [{
-      path: "task",
-      component: () => import("@/views/system/task/index.vue"),
-      name: "User",
-      meta: {
-        title: "任务管理",
-        icon: "el-icon-User",
-        hidden: false,
-        keepAlive: true,
-        alwaysShow: false,
+    children: [
+      {
+        path: "task",
+        component: () => import("@/views/system/task/index.vue"),
+        name: "User",
+        meta: {
+          title: "任务管理",
+          icon: "el-icon-User",
+          hidden: false,
+          keepAlive: true,
+          alwaysShow: false,
+        },
       },
-    },]
-  }
+    ],
+  },
 ];
 
 /**
