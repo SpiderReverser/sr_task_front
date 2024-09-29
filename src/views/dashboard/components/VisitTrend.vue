@@ -6,18 +6,11 @@
         <div class="flex-y-center">
           访问趋势
           <el-tooltip effect="dark" content="点击试试下载" placement="bottom">
-            <i-ep-download
-              class="cursor-pointer hover:color-#409eff ml-1"
-              @click="handleDownloadChart"
-            />
+            <i-ep-download class="cursor-pointer hover:color-#409eff ml-1" @click="handleDownloadChart" />
           </el-tooltip>
         </div>
 
-        <el-radio-group
-          v-model="dataRange"
-          size="small"
-          @change="handleDateRangeChange"
-        >
+        <el-radio-group v-model="dataRange" size="small" @change="handleDateRangeChange">
           <el-radio-button label="近7天" :value="1" />
           <el-radio-button label="近30天" :value="2" />
         </el-radio-group>
@@ -153,12 +146,7 @@ const calculateDateRange = () => {
 /** 加载数据 */
 const loadData = () => {
   const { startDate, endDate } = calculateDateRange();
-  StatsAPI.getVisitTrend({
-    startDate,
-    endDate,
-  } as VisitTrendQuery).then((data) => {
-    setChartOptions(data);
-  });
+
 };
 
 const handleDateRangeChange = () => {

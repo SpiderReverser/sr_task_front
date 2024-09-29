@@ -22,6 +22,10 @@ html.dark {
   --sidebar-logo-background: rgb(0 0 0 / 20%);
 }
 
+html.dark .el-table {
+  --el-table-current-row-bg-color: rgb(77, 77, 77);
+}
+
 $menu-background: var(--menu-background); // 菜单背景色
 $menu-text: var(--menu-text); // 菜单文字颜色
 $menu-active-text: var(--menu-active-text); // 菜单激活文字颜色

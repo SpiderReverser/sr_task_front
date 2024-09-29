@@ -11,8 +11,7 @@
         path: resolvePath(onlyOneChild.path),
         query: onlyOneChild.meta.params,
       }">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)"
-          :class="{ 'submenu-title-noDropdown': !isNest }">
+        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{ 'submenu-title-noDropdown': !isNest }">
           <SidebarMenuItemTitle :icon="onlyOneChild.meta.icon || (item.meta && item.meta.icon)"
             :title="onlyOneChild.meta.title" />
         </el-menu-item>
@@ -109,8 +108,6 @@ function hasOneShowingChild(
  * @returns 绝对路径
  */
 function resolvePath(routePath: string) {
-  console.log(routePath);
-
   if (isExternal(routePath)) {
     return routePath;
   }

@@ -1,4 +1,4 @@
-import { RouteRecordRaw } from "vue-router";
+import { RouteRecord, RouteRecordRaw } from "vue-router";
 import { constantRoutes } from "@/router";
 import router from "@/router";
 import { store } from "@/store";
@@ -29,13 +29,14 @@ export const usePermissionStore = defineStore("permission", () => {
         });
     });
   }
-
-  function setRoutes(data: RouteVO[]) {
-    const dynamicRoutes = transformRoutes(data);
-    console.log(constantRoutes.concat(dynamicRoutes));
-    routes.value = constantRoutes.concat(dynamicRoutes);
-    dynamicRoutes.forEach((route: RouteRecordRaw) => router.addRoute(route));
+  /** 从本地读取路由添加到左侧菜单 */
+  function getLocalRoute() {
+    return new Promise<RouteRecordRaw[]>((resolve, reject) => {
+      Object.assign(routes.value, router.options.routes);
+      resolve(routes.value);
+    });
   }
+
 
   /**
    * 混合模式菜单下根据顶部菜单路径设置左侧菜单
@@ -43,7 +44,11 @@ export const usePermissionStore = defineStore("permission", () => {
    * @param topMenuPath - 顶部菜单路径
    */
   const setMixLeftMenus = (topMenuPath: string) => {
+    console.log("topMenuPath: " + topMenuPath);
+
     const matchedItem = routes.value.find((item) => item.path === topMenuPath);
+    console.log("matchedItem:" + matchedItem);
+
     if (matchedItem && matchedItem.children) {
       mixLeftMenus.value = matchedItem.children;
     }
@@ -52,7 +57,7 @@ export const usePermissionStore = defineStore("permission", () => {
   return {
     routes,
     generateRoutes,
-    setRoutes,
+    getLocalRoute,
     mixLeftMenus,
     setMixLeftMenus,
   };

@@ -52,20 +52,20 @@ service.interceptors.response.use(
     // 异常处理
     if (error.response.data) {
       const { code, msg } = error.response.data;
-      if (code === ResultEnum.TOKEN_INVALID) {
-        ElNotification({
-          title: "提示",
-          message: "您的会话已过期，请重新登录",
-          type: "info",
-        });
-        useUserStoreHook()
-          .resetToken()
-          .then(() => {
-            location.reload();
-          });
-      } else {
-        ElMessage.error(msg || "系统出错");
-      }
+      // if (code === ResultEnum.TOKEN_INVALID) {
+      //   ElNotification({
+      //     title: "提示",
+      //     message: "您的会话已过期，请重新登录",
+      //     type: "info",
+      //   });
+      //   useUserStoreHook()
+      //     .resetToken()
+      //     .then(() => {
+      //       location.reload();
+      //     });
+      // } else {
+      //   ElMessage.error(msg || "系统出错");
+      // }
     }
     return Promise.reject(error.message);
   }

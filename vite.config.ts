@@ -49,6 +49,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           additionalData: `
             @use "@/styles/variables.scss" as *;
           `,
+          api: "modern-compiler",
         },
       },
     },

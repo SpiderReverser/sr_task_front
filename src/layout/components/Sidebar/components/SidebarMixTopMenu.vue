@@ -1,26 +1,14 @@
 <!-- 混合布局菜单(top) -->
 <template>
   <el-scrollbar>
-    <el-menu
-      mode="horizontal"
-      :default-active="activePath"
-      :background-color="variables['menu-background']"
-      :text-color="variables['menu-text']"
-      :active-text-color="variables['menu-active-text']"
-      @select="handleMenuSelect"
-    >
-      <el-menu-item
-        v-for="route in mixTopMenus"
-        :key="route.path"
-        :index="route.path"
-      >
+    <el-menu mode="horizontal" :default-active="activePath" :background-color="variables['menu-background']"
+      :text-color="variables['menu-text']" :active-text-color="variables['menu-active-text']"
+      @select="handleMenuSelect">
+      <el-menu-item v-for="route in mixTopMenus" :key="route.path" :index="route.path">
         <template #title>
-          <svg-icon
-            v-if="route.meta && route.meta.icon"
-            :icon-class="route.meta.icon"
-          />
+          <svg-icon v-if="route.meta && route.meta.icon" :icon-class="route.meta.icon" />
           <!-- <span v-if="route.path === '/'">首页</span> -->
-          <template >
+          <template>
             <span v-if="route.meta && route.meta.title" class="ml-1">
               {{ translateRouteTitle(route.meta.title) }}
             </span>
@@ -41,8 +29,6 @@ const appStore = useAppStore();
 const permissionStore = usePermissionStore();
 const router = useRouter();
 
-console.log("当前路由", useRoute().path);
-
 // 避免 activeTopMenuPath 缓存被清理，从当前路由路径获取顶部菜单路径，eg. /system/user → /system
 const activeTopMenuPath = useRoute().path.match(/^\/[^\/]+/)?.[0] || "/";
 appStore.activeTopMenu(activeTopMenuPath);
@@ -58,6 +44,8 @@ const mixTopMenus = ref<RouteRecordRaw[]>([]);
  */
 const handleMenuSelect = (routePath: string) => {
   appStore.activeTopMenu(routePath);
+  console.log("sidebar:" + routePath);
+
   permissionStore.setMixLeftMenus(routePath);
   // 获取左侧菜单集合，默认跳转到第一个菜单
   const mixLeftMenus = permissionStore.mixLeftMenus;
