@@ -4,10 +4,8 @@
     <Sidebar class="sidebar-container" />
     <div class="main-container">
       <!-- 宣传画 -->
-      <div class="poster">
-      </div>
-      <div class="footer">
-      </div>
+      <div class="poster"></div>
+      <div class="footer"></div>
     </div>
   </div>
 </template>
@@ -18,7 +16,7 @@ import { LayoutEnum } from "@/enums/LayoutEnum";
 // import { RouteVO } from "@/api/menu";
 
 const permissionStore = usePermissionStore();
-const settingsStore = useSettingsStore()
+const settingsStore = useSettingsStore();
 // const routeData: RouteVO[] = [
 // ];
 
@@ -125,11 +123,9 @@ settingsStore.layout = LayoutEnum.TOP;
 .poster {
   height: 1200px;
   background-color: white;
-
 }
 
 .footer {
   height: 400px;
-
 }
 </style>
