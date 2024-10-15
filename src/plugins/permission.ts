@@ -9,10 +9,7 @@ import { TOKEN_KEY } from "@/enums/CacheEnum";
 import router from "@/router";
 import { usePermissionStore, useUserStore } from "@/store";
 
-
-
 export async function setupPermission() {
-
   const permissionStore = usePermissionStore();
   permissionStore.getLocalRoute();
 
