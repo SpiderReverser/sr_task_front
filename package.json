@@ -1,6 +1,6 @@
 {
-    "name": "后台管理系统",
-    "version": "2.13.0",
+    "name": "反转蜘蛛任务系统",
+    "version": "1.0.0",
     "private": true,
     "type": "module",
     "scripts": {
